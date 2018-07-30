@@ -83,7 +83,7 @@ def cli():
     options = ''.join([
         key for key, value in arguments.items() if value is True
     ])
-    print(available_place)
+    print(arguments)
     TrainCollection(available_trains,available_place, options).pretty_print()
 
 
