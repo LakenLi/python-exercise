@@ -13,6 +13,7 @@ KEY_ALL = 200
 MYSQL_HOST = 'localhost'
 MYSQL_USER = 'root'
 MYSQL_PWD = 'Horan@mysql#0312'
+MYSQL_DB_NAME = 'lhr_test'
 
 def base_str():
 	return (string.ascii_letters + string.digits)
@@ -29,14 +30,14 @@ def key_num(num, result = None):
 	return result
 
 def mysql_connect():
-	db = pymysql.connect(MYSQL_HOST, MYSQL_HOST, MYSQL_PWD)
+	db = pymysql.connect(MYSQL_HOST, MYSQL_USER, MYSQL_PWD, MYSQL_DB_NAME)
 	return db
 
 def add_gen(num = None):
 	if num is None:
 		num = 10
-
 	currentDate = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
+
 	db = mysql_connect()
 	cursor = db.cursor()
 
@@ -44,18 +45,24 @@ def add_gen(num = None):
 		for i in range(num):
 			gen = key_gen()
 			sql = "INSERT INTO discount_info(discount_key, created_at) \
-       		VALUES ('%s', '%s')" % (gen, currentDate)
-       		cursor.execute(sql)
+			VALUES ('%s', '%s')" % (gen, currentDate)
 
-       	db.commit()
-    except:
-    	db.rollback()
+			cursor.execute(sql)
 
-    db.close()
+		db.commit()
+
+	except:
+		db.rollback()
+
+	db.close()
 
 
 if __name__ == '__main__':
 	add_gen(KEY_ALL)
+
+	  		
+       	
+
 
 
 
