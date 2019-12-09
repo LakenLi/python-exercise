@@ -216,5 +216,94 @@ print(fruits_tuple)
 - 1、元组中的元素是无法修改的，事实上我们在项目中尤其是多线程环境（后面会讲到）中可能更喜欢使用的是那些不变对象（一方面因为对象状态不能修改，所以可以避免由此引起的不必要的程序错误，简单的说就是一个不变的对象要比可变的对象更加容易维护；另一方面因为没有任何一个线程能够修改不变对象的内部状态，一个不变对象自动就是线程安全的，这样就可以省掉处理同步化的开销。一个不变对象可以方便的被共享访问）。所以结论就是：如果不需要对元素进行添加、删除、修改的时候，可以考虑使用元组，当然如果一个方法要返回多个值，使用元组也是不错的选择。
 - 2、元组在创建时间和占用的空间上面都优于列表。我们可以使用sys模块的getsizeof函数来检查存储同样的元素的元组和列表各自占用了多少内存空间，这个很容易做到。我们也可以在ipython中使用魔法指令%timeit来分析创建同样内容的元组和列表所花费的时间，下图是我的macOS系统上测试的结果。
 
+### 使用集合
+Python中的集合跟数学上的集合是一致的，不允许有重复元素，而且可以进行交集、并集、差集等运算。
+举个例子：
+```python
+# 创建集合的字面量语法
+set1 = {1, 2, 3, 3, 3, 2}
+print(set1)
+print('Length =', len(set1))
+# 创建集合的构造器语法(面向对象部分会进行详细讲解)
+set2 = set(range(1, 10))
+set3 = set((1, 2, 3, 3, 2, 1))
+print(set2, set3)
+# 创建集合的推导式语法(推导式也可以用于推导集合)
+set4 = {num for num in range(1, 100) if num % 3 == 0 or num % 5 == 0}
+print(set4)
+
+## 向集合添加元素和从集合删除元素
+set1.add(4)
+set1.add(5)
+set2.update([11, 12])
+set2.discard(5)
+if 4 in set2:
+    set2.remove(4)
+print(set1, set2)
+print(set3.pop())
+print(set3)
+
+## 集合的成员、交集、并集、差集等运算
+# 集合的交集、并集、差集、对称差运算
+print(set1 & set2)
+# print(set1.intersection(set2))
+print(set1 | set2)
+# print(set1.union(set2))
+print(set1 - set2)
+# print(set1.difference(set2))
+print(set1 ^ set2)
+# print(set1.symmetric_difference(set2))
+# 判断子集和超集
+print(set2 <= set1)
+# print(set2.issubset(set1))
+print(set3 <= set1)
+# print(set3.issubset(set1))
+print(set1 >= set2)
+# print(set1.issuperset(set2))
+print(set1 >= set3)
+# print(set1.issuperset(set3))
+
+```
+
+### 使用字典
+字典是另一种可变容器模型，Python中的字典跟我们生活中使用的字典是一样一样的，它可以存储任意类型对象，与列表、集合不同的是，字典的每个元素都是由一个键和一个值组成的“键值对”，键和值通过冒号分开。下面的代码演示了如何定义和使用字典。
+```python
+# 创建字典的字面量语法
+scores = {'群群': 95, '白元芳': 78, '狄仁杰': 82}
+print(scores)
+# 创建字典的构造器语法
+items1 = dict(one=1, two=2, three=3, four=4)
+# 通过zip函数将两个序列压成字典
+items2 = dict(zip(['a', 'b', 'c'], '123'))
+# 创建字典的推导式语法
+items3 = {num: num ** 2 for num in range(1, 10)}
+print(items1, items2, items3)
+# 通过键可以获取字典中对应的值
+print(scores['群群'])
+print(scores['狄仁杰'])
+# 对字典中所有键值对进行遍历
+for key in scores:
+    print(f'{key}: {scores[key]}')
+# 更新字典中的元素
+scores['白元芳'] = 65
+scores['诸葛王朗'] = 71
+scores.update(冷面=67, 方启鹤=85)
+print(scores)
+if '武则天' in scores:
+    print(scores['武则天'])
+print(scores.get('武则天'))
+# get方法也是通过键获取对应的值但是可以设置默认值
+print(scores.get('武则天', 60))
+# 删除字典中的元素
+print(scores.popitem())
+print(scores.popitem())
+print(scores.pop('群群', 100))
+# 清空字典
+scores.clear()
+print(scores)
+```
+
+
+
 
 
